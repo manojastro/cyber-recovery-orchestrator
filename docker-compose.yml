@@ -1,0 +1,24 @@
+services:
+  orchestrator:
+    build: .
+    container_name: cyber-recovery-orchestrator
+    ports:
+      - "8011:8011"
+    environment:
+      # Four slashes = absolute path /srv/data/cyber_recovery.db on sqlite.
+      DATABASE_URL: sqlite:////srv/data/cyber_recovery.db
+      LLM_MODE: mock
+      LOG_LEVEL: INFO
+      # Leave false in production-style runs; true exposes the debug fault
+      # injection route used to demo the rollback path.
+      ENABLE_FAULT_INJECTION: "false"
+    volumes:
+      - ./data:/srv/data
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8011/health', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped

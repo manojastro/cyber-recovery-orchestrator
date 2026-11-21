@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0",
+  "notes": "Ground truth for deterministic lab scenarios. Clean point is BKP-007: compromise window opens 90 minutes before detection while snapshots are hourly, so BKP-008 (taken inside/after the window) carries malicious markers in BOTH scenarios. In corrupted_latest, BKP-008 additionally fails checksum verification. Recovery order = tier-ascending topological order with alphabetical tie-break (config-store and object-storage have no dependencies; core-postgres requires config-store, etc.).",
+  "scenarios": {
+    "standard": {
+      "description": "Ransomware mass-encryption at T0-90m; hourly backup history; latest snapshot taken inside compromise window.",
+      "expected_detection": true,
+      "clean_snapshot_label": "BKP-007",
+      "unsafe_snapshots": ["BKP-008"],
+      "expected_recovery_order": [
+        "config-store",
+        "core-postgres",
+        "identity-service",
+        "object-storage",
+        "customer-service",
+        "payment-service",
+        "order-service",
+        "web-frontend",
+        "reporting-service"
+      ],
+      "expected_affected_assets": [
+        "config-store", "object-storage", "core-postgres", "identity-service",
+        "web-frontend", "order-service", "customer-service", "payment-service",
+        "reporting-service"
+      ],
+      "rpo_bound_seconds": 1800
+    },
+    "corrupted_latest": {
+      "description": "Same as standard plus the LATEST backup's manifest is tampered so its checksum no longer verifies; naive latest restore would reintroduce corruption.",
+      "expected_detection": true,
+      "clean_snapshot_label": "BKP-007",
+      "unsafe_snapshots": ["BKP-008"],
+      "expected_recovery_order": [
+        "config-store",
+        "core-postgres",
+        "identity-service",
+        "object-storage",
+        "customer-service",
+        "payment-service",
+        "order-service",
+        "web-frontend",
+        "reporting-service"
+      ],
+      "expected_affected_assets": [
+        "config-store", "object-storage", "core-postgres", "identity-service",
+        "web-frontend", "order-service", "customer-service", "payment-service",
+        "reporting-service"
+      ],
+      "rpo_bound_seconds": 1800
+    }
+  }
+}

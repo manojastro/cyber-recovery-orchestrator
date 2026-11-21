@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Local data (SQLite lab database lives here)
+data/
+
+# Environment / secrets
+.env
+*.key
+
+# OS noise
+Thumbs.db
+.DS_Store
+
+# Coverage / build artifacts
+htmlcov/
+.coverage
+dist/
+build/

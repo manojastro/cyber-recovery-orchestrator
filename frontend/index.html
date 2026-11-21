@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyber Recovery Orchestrator</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">CR</span>
+      <div>
+        <h1>Cyber Recovery Orchestrator</h1>
+        <p class="subtitle">Autonomous cyber recovery &amp; business resilience control plane</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span id="llm-badge" class="badge badge-amber hidden">MOCK MODE</span>
+      <span id="conn-dot" class="conn conn-off" title="API connectivity"></span>
+      <span id="clock" class="clock"></span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- ================= Overview ================= -->
+    <section class="panel panel-wide">
+      <h2>Cyber Recovery Overview</h2>
+      <div class="kpi-row" id="kpi-row"></div>
+      <p class="empty hidden" id="overview-empty">No investigation yet. Seed the lab and trigger a scenario via the API or demo script.</p>
+    </section>
+
+    <!-- ================= Incident timeline ============== -->
+    <section class="panel">
+      <h2>Incident Timeline</h2>
+      <ol id="timeline" class="timeline"></ol>
+      <p class="empty hidden">No events recorded.</p>
+    </section>
+
+    <!-- ================= Affected assets ================ -->
+    <section class="panel">
+      <h2>Affected Assets</h2>
+      <table class="data-table" id="assets-table">
+        <thead><tr><th>Asset</th><th>Tier</th><th>Type</th><th>State</th><th>Health</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="empty hidden">No affected assets.</p>
+    </section>
+
+    <!-- ================= Dependency map ================= -->
+    <section class="panel panel-wide">
+      <h2>Application Dependency Map</h2>
+      <div class="legend" id="dep-legend"></div>
+      <div class="graph-wrap"><svg id="dep-graph" viewBox="0 0 900 340" role="img" aria-label="Dependency map layered by business tier"></svg></div>
+    </section>
+
+    <!-- ================= Recovery points ================ -->
+    <section class="panel panel-wide">
+      <h2>Available Recovery Points</h2>
+      <table class="data-table" id="backups-table">
+        <thead><tr><th>Label</th><th>Taken At</th><th>Integrity</th><th>Indicators</th><th>RPO Cost</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="empty hidden">No backups found. Seed the lab first.</p>
+    </section>
+
+    <!-- ================= Criticality ==================== -->
+    <section class="panel">
+      <h2>Business Criticality Tiers</h2>
+      <div id="tiers"></div>
+      <p class="empty hidden">Seed the lab to load tiers.</p>
+    </section>
+
+    <!-- ================= Recovery plan ================== -->
+    <section class="panel">
+      <h2>Recovery Plan</h2>
+      <div class="progress-wrap"><div id="plan-progress" class="progress-bar"></div></div>
+      <ol id="plan-steps" class="plan-steps"></ol>
+      <p class="empty hidden">No plan generated yet.</p>
+    </section>
+
+    <!-- ================= Validations ==================== -->
+    <section class="panel">
+      <h2>Validation Results</h2>
+      <ul id="validations" class="validation-list"></ul>
+      <p class="empty hidden">No validation checks recorded yet.</p>
+    </section>
+
+    <!-- ================= Audit trail ==================== -->
+    <section class="panel panel-wide">
+      <h2>Audit Trail (tool calls &amp; approvals)</h2>
+      <table class="data-table" id="audit-table">
+        <thead><tr><th>Time</th><th>Tool / Approval</th><th>Status</th><th>Risk</th><th>Summary</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="empty hidden">No audit entries yet.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span id="footer-state">idle</span> &middot; polling every 3s while an investigation is active &middot;
+    in-process lab simulation; facts come from registered tools only
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
